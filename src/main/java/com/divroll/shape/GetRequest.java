@@ -34,6 +34,7 @@ import org.teavm.jso.ajax.ReadyStateChangeHandler;
 import org.teavm.jso.ajax.XMLHttpRequest;
 import org.teavm.platform.async.AsyncCallback;
 
+import java.io.IOException;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.logging.Logger;
@@ -85,7 +86,7 @@ public class GetRequest {
     }
 
     @Async
-    public native String asJson();
+    public native String asJson() throws IOException;
 
     public void asJson(final AsyncCallback<String> callback) {
         if (queryMap != null && !queryMap.isEmpty()) {
