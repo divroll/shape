@@ -19,16 +19,15 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.divroll.shape;
-
-import org.teavm.jso.JSBody;
+package com.divroll.shape.exceptions;
 
 /**
  * @author Kerby Martino
  * @version 0-SNAPSHOT
  * @since 0-SNAPSHOT
  */
-public class Base64 {
-    @JSBody(params = {"a"}, script = "return btoa(a);")
-    public static native String btoa(String a);
+public class UnauthorizedRequestException extends HttpRequestException {
+    public UnauthorizedRequestException(String mesage, int code) {
+        super(mesage, code);
+    }
 }

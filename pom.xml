@@ -129,7 +129,11 @@
             <artifactId>guava</artifactId>
             <version>26.0-jre</version>
         </dependency>
-
+		<dependency>
+			<groupId>org.json</groupId>
+			<artifactId>json</artifactId>
+			<version>20180813</version>
+		</dependency>
 	</dependencies>
 	<repositories>
         <!-- Snapshot repository -->
@@ -223,6 +227,11 @@
 		</profile>
 	</profiles>
     <distributionManagement>
+        <repository>
+            <id>oss-jfrog-artifactory-snapshots</id>
+            <name>oss-jfrog-artifactory-snapshots</name>
+            <url>http://oss.jfrog.org/artifactory/oss-snapshot-local</url>
+        </repository>
         <snapshotRepository>
             <id>bintray-dotweblabs-maven</id>
             <name>oss-jfrog-artifactory-snapshots</name>
