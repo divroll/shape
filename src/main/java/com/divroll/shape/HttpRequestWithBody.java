@@ -143,97 +143,91 @@ public class HttpRequestWithBody {
                 }
             }
         }
-        try {
-            Object payload = body;
-            if (fields != null && !fields.isEmpty()) {
-                StringBuilder sb = new StringBuilder();
-                Iterator<Map.Entry<String, Object>> it = fields.entrySet().iterator();
-                while (it.hasNext()) {
-                    Map.Entry<String, Object> entry = it.next();
-                    if (entry.getValue() instanceof String) {
-                        if (!it.hasNext()) {
-                            sb.append(entry.getKey()).append("=").append(encodeURI((String.valueOf(entry.getValue()))));
-                        } else {
-                            sb.append(entry.getKey()).append("=").append(encodeURI((String.valueOf(entry.getValue())))).append("&");
-                        }
+        Object payload = body;
+        if (fields != null && !fields.isEmpty()) {
+            StringBuilder sb = new StringBuilder();
+            Iterator<Map.Entry<String, Object>> it = fields.entrySet().iterator();
+            while (it.hasNext()) {
+                Map.Entry<String, Object> entry = it.next();
+                if (entry.getValue() instanceof String) {
+                    if (!it.hasNext()) {
+                        sb.append(entry.getKey()).append("=").append(encodeURI((String.valueOf(entry.getValue()))));
+                    } else {
+                        sb.append(entry.getKey()).append("=").append(encodeURI((String.valueOf(entry.getValue())))).append("&");
                     }
                 }
-                payload = sb.toString();
-                xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
             }
+            payload = sb.toString();
+            xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+        }
 //            if(body != null){
 //                if(this.body instanceof JavaScriptObject){
 //                         //TODO for Sending File
 //                }
 //            }
-            if (authorization != null) {
-                xhr.setRequestHeader("Authorization", authorization);
-            }
-            if (payload != null) {
-                Object finalPayload = payload;
-                background.run(new Runnable() {
-                    public void run() {
-                        xhr.setOnReadyStateChange(new ReadyStateChangeHandler() {
-                            @Override
-                            public void stateChanged() {
-                                if (xhr.getReadyState() != XMLHttpRequest.DONE) {
-                                    return;
-                                }
-                                if (xhr.getStatus() == 400) {
-                                    callback.error(new BadRequestException(xhr.getStatusText(), xhr.getStatus()));
-                                    return;
-                                } else if (xhr.getStatus() == 401) {
-                                    callback.error(new UnauthorizedRequestException(xhr.getStatusText(), xhr.getStatus()));
-                                    return;
-                                } else if (xhr.getStatus() == 404) {
-                                    callback.error(new NotFoundRequestException(xhr.getStatusText(), xhr.getStatus()));
-                                    return;
-                                } else if (xhr.getStatus() >= 400) {
-                                    callback.error(new HttpRequestException(xhr.getStatusText(), xhr.getStatus()));
-                                    return;
-                                }
-                                String responseText = xhr.getResponseText();
-                                callback.complete(responseText);
+        if (authorization != null) {
+            xhr.setRequestHeader("Authorization", authorization);
+        }
+        if (payload != null) {
+            Object finalPayload = payload;
+            background.run(new Runnable() {
+                public void run() {
+                    xhr.setOnReadyStateChange(new ReadyStateChangeHandler() {
+                        @Override
+                        public void stateChanged() {
+                            if (xhr.getReadyState() != XMLHttpRequest.DONE) {
+                                return;
                             }
-                        });
-                        xhr.send(String.valueOf(finalPayload));
-                    }
-                });
-
-            } else {
-                background.run(new Runnable() {
-                    public void run() {
-                        xhr.setOnReadyStateChange(new ReadyStateChangeHandler() {
-                            @Override
-                            public void stateChanged() {
-                                if (xhr.getReadyState() != XMLHttpRequest.DONE) {
-                                    return;
-                                }
-                                if (xhr.getStatus() == 400) {
-                                    callback.error(new BadRequestException(xhr.getStatusText(), xhr.getStatus()));
-                                    return;
-                                } else if (xhr.getStatus() == 401) {
-                                    callback.error(new UnauthorizedRequestException(xhr.getStatusText(), xhr.getStatus()));
-                                    return;
-                                } else if (xhr.getStatus() == 404) {
-                                    callback.error(new NotFoundRequestException(xhr.getStatusText(), xhr.getStatus()));
-                                    return;
-                                } else if (xhr.getStatus() >= 400) {
-                                    callback.error(new HttpRequestException(xhr.getStatusText(), xhr.getStatus()));
-                                    return;
-                                }
-                                String responseText = xhr.getResponseText();
-                                callback.complete(responseText);
+                            if (xhr.getStatus() == 400) {
+                                callback.error(new BadRequestException(xhr.getStatusText(), xhr.getStatus()));
+                                return;
+                            } else if (xhr.getStatus() == 401) {
+                                callback.error(new UnauthorizedRequestException(xhr.getStatusText(), xhr.getStatus()));
+                                return;
+                            } else if (xhr.getStatus() == 404) {
+                                callback.error(new NotFoundRequestException(xhr.getStatusText(), xhr.getStatus()));
+                                return;
+                            } else if (xhr.getStatus() >= 400) {
+                                callback.error(new HttpRequestException(xhr.getStatusText(), xhr.getStatus()));
+                                return;
                             }
-                        });
-                        xhr.send();
-                    }
-                });
-            }
+                            String responseText = xhr.getResponseText();
+                            callback.complete(responseText);
+                        }
+                    });
+                    xhr.send(String.valueOf(finalPayload));
+                }
+            });
 
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            callback.error(ex);
+        } else {
+            background.run(new Runnable() {
+                public void run() {
+                    xhr.setOnReadyStateChange(new ReadyStateChangeHandler() {
+                        @Override
+                        public void stateChanged() {
+                            if (xhr.getReadyState() != XMLHttpRequest.DONE) {
+                                return;
+                            }
+                            if (xhr.getStatus() == 400) {
+                                callback.error(new BadRequestException(xhr.getStatusText(), xhr.getStatus()));
+                                return;
+                            } else if (xhr.getStatus() == 401) {
+                                callback.error(new UnauthorizedRequestException(xhr.getStatusText(), xhr.getStatus()));
+                                return;
+                            } else if (xhr.getStatus() == 404) {
+                                callback.error(new NotFoundRequestException(xhr.getStatusText(), xhr.getStatus()));
+                                return;
+                            } else if (xhr.getStatus() >= 400) {
+                                callback.error(new HttpRequestException(xhr.getStatusText(), xhr.getStatus()));
+                                return;
+                            }
+                            String responseText = xhr.getResponseText();
+                            callback.complete(responseText);
+                        }
+                    });
+                    xhr.send();
+                }
+            });
         }
     }
 

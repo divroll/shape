@@ -54,7 +54,7 @@ public class ShapeTest {
     public final ExpectedException exception = ExpectedException.none();
 
     @Test
-    public void testGet() {
+    public void testGet() throws IOException {
         System.out.println("ShapeTest - testGet");
         String response = Shape.get("https://httpbin.org/get")
                 .header("accept", "application/json")
@@ -72,7 +72,7 @@ public class ShapeTest {
     }
 
     @Test
-    public void testGetQuery() {
+    public void testGetQuery() throws IOException {
         System.out.println("ShapeTest - testGetQuery");
         String response = Shape.get("https://httpbin.org/get")
                 .header("accept", "application/json")
