@@ -19,25 +19,16 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.divroll.shape.exceptions;
+package com.mashape.unirest;
+
+import org.teavm.jso.JSBody;
 
 /**
  * @author Kerby Martino
  * @version 0-SNAPSHOT
  * @since 0-SNAPSHOT
  */
-public class HttpRequestException extends Exception {
-    private int code;
-
-    public HttpRequestException(String message, int code) {
-        super(message);
-        this.code = code;
-    }
-
-    public HttpRequestException() {
-    }
-
-    public int getCode() {
-        return code;
-    }
+public class Base64 {
+    @JSBody(params = {"a"}, script = "return btoa(a);")
+    public static native String btoa(String a);
 }

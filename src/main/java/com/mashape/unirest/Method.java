@@ -19,15 +19,30 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.divroll.shape.exceptions;
+package com.mashape.unirest;
 
 /**
  * @author Kerby Martino
  * @version 0-SNAPSHOT
  * @since 0-SNAPSHOT
  */
-public class UnauthorizedRequestException extends HttpRequestException {
-    public UnauthorizedRequestException(String mesage, int code) {
-        super(mesage, code);
+public enum Method {
+
+    POST("POST"), PUT("PUT"), GET("GET"), DELETE("DELETE"), OPTIONS("OPTIONS"), HEAD("HEAD");
+
+    private final String name;
+
+    private Method(String s) {
+        name = s;
     }
+
+    public boolean equalsName(String otherName) {
+        // (otherName == null) check is not needed because name.equals(null) returns false
+        return name.equals(otherName);
+    }
+
+    public String toString() {
+        return this.name;
+    }
+
 }

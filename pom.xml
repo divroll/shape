@@ -2,7 +2,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.divroll</groupId>
 	<artifactId>shape</artifactId>
-	<version>0-SNAPSHOT-TEAVM</version>
+	<version>0-SNAPSHOT-TEAVM-MASHAPE</version>
 
 	<name>HTTP client for TeaVM (and Javascript)</name>
 	<description>A simple HTTP client wrapper for TeaVM</description>

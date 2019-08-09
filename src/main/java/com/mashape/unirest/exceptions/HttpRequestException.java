@@ -19,15 +19,25 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.divroll.shape.exceptions;
+package com.mashape.unirest.exceptions;
 
 /**
  * @author Kerby Martino
  * @version 0-SNAPSHOT
  * @since 0-SNAPSHOT
  */
-public class BadRequestException extends HttpRequestException {
-    public BadRequestException(String mesage, int code) {
-        super(mesage, code);
+public class HttpRequestException extends Exception {
+    private int code;
+
+    public HttpRequestException(String message, int code) {
+        super(message);
+        this.code = code;
+    }
+
+    public HttpRequestException() {
+    }
+
+    public int getCode() {
+        return code;
     }
 }

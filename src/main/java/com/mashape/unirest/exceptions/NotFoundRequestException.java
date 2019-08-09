@@ -19,52 +19,15 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.divroll.shape;
+package com.mashape.unirest.exceptions;
 
 /**
- * Fluent HTTP Client wrapper for TeaVM
- *
  * @author Kerby Martino
  * @version 0-SNAPSHOT
  * @since 0-SNAPSHOT
  */
-public class Shape {
-
-
-    public static GetRequest get(String url) {
-        return new GetRequest(url);
+public class NotFoundRequestException extends HttpRequestException {
+    public NotFoundRequestException(String mesage, int code) {
+        super(mesage, code);
     }
-
-    ;
-
-    public static GetRequest head(String url) {
-        return new GetRequest(url);
-    }
-
-    ;
-
-    public static HttpRequestWithBody post(String url) {
-        return new HttpRequestWithBody(url, Method.POST);
-    }
-
-    ;
-
-    public static HttpRequestWithBody put(String url) {
-        return new HttpRequestWithBody(url, Method.PUT);
-    }
-
-    ;
-
-    public static HttpRequestWithBody delete(String url) {
-        return new HttpRequestWithBody(url, Method.DELETE);
-    }
-
-    ;
-
-    //public static HttpRequestWithBody patch(String url){
-    //    return new HttpRequestWithBody(url, Method.PATCH);
-    //};
-    //public static HttpRequestWithBody options(String url){
-    //    return new HttpRequestWithBody(url, Method.OPTIONS);
-    //};
 }

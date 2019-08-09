@@ -19,14 +19,20 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.divroll.shape;
+package com.mashape.unirest.request;
 
-import com.divroll.shape.exceptions.BadRequestException;
-import com.divroll.shape.exceptions.HttpRequestException;
-import com.divroll.shape.exceptions.NotFoundRequestException;
-import com.divroll.shape.exceptions.UnauthorizedRequestException;
+import com.mashape.unirest.Base64;
+import com.mashape.unirest.Method;
+import com.mashape.unirest.exceptions.BadRequestException;
+import com.mashape.unirest.exceptions.HttpRequestException;
+import com.mashape.unirest.exceptions.NotFoundRequestException;
+import com.mashape.unirest.exceptions.UnauthorizedRequestException;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
+import com.mashape.unirest.http.HttpResponse;
+import com.mashape.unirest.http.JsonHttpResponse;
+import com.mashape.unirest.http.JsonNode;
+import com.mashape.unirest.http.exceptions.UnirestException;
 import org.teavm.flavour.widgets.BackgroundWorker;
 import org.teavm.interop.Async;
 import org.teavm.jso.JSBody;
@@ -35,6 +41,7 @@ import org.teavm.jso.ajax.XMLHttpRequest;
 import org.teavm.platform.async.AsyncCallback;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -104,9 +111,16 @@ public class HttpRequestWithBody {
     }
 
     @Async
-    public native String asJson() throws IOException;
+    public native HttpResponse<InputStream> asBinary() throws UnirestException;
 
-    private void asJson(final AsyncCallback<String> callback) {
+    private void asBinary(final AsyncCallback<HttpResponse<InputStream>> callback) {
+
+    }
+
+    @Async
+    public native HttpResponse<JsonNode> asJson() throws UnirestException;
+
+    private void asJson(final AsyncCallback<HttpResponse<JsonNode>> callback) {
         if (queryMap != null && !queryMap.isEmpty()) {
             url = url + "?";
             url = url + queries(queryMap);
@@ -192,7 +206,9 @@ public class HttpRequestWithBody {
                                 return;
                             }
                             String responseText = xhr.getResponseText();
-                            callback.complete(responseText);
+                            int status = xhr.getStatus();
+                            String statusText = xhr.getStatusText();
+                            callback.complete(new JsonHttpResponse(status, statusText, responseText));
                         }
                     });
                     xhr.send(String.valueOf(finalPayload));
@@ -222,7 +238,9 @@ public class HttpRequestWithBody {
                                 return;
                             }
                             String responseText = xhr.getResponseText();
-                            callback.complete(responseText);
+                            int status = xhr.getStatus();
+                            String statusText = xhr.getStatusText();
+                            callback.complete(new JsonHttpResponse(status, statusText, responseText));
                         }
                     });
                     xhr.send();
